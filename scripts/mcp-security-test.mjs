@@ -84,14 +84,14 @@ assert.equal(timed.commandResult.timedOut, true);
 assert.equal(timed.commandResult.code, 124);
 assert.ok(Date.now() - startedAt < 5000, 'timed-out commands must terminate promptly');
 
-const httpSource = await readFile(new URL('./mcp-http-server.mjs', import.meta.url), 'utf8');
+const httpSource = await readFile(new URL('./mcp-http-server-v2.mjs', import.meta.url), 'utf8');
 assert.match(httpSource, /app\.set\('trust proxy', 'loopback'\)/);
 const initializeStart = httpSource.indexOf('if (!sessionId && isInitializeRequest(req.body))');
 const initializeEnd = httpSource.indexOf('res.status(400)', initializeStart);
 const initializeBlock = httpSource.slice(initializeStart, initializeEnd);
 assert.ok(initializeStart > 0 && initializeEnd > initializeStart);
 assert.ok(initializeBlock.indexOf('transports.size >= maxSessions') >= 0);
-assert.ok(initializeBlock.indexOf('transports.size >= maxSessions') < initializeBlock.indexOf('createTransport()'));
+assert.ok(initializeBlock.indexOf('transports.size >= maxSessions') < initializeBlock.indexOf('createTransport'));
 assert.doesNotMatch(httpSource, /MCP_ALLOW_UNAUTHENTICATED_PUBLIC\s*=\s*['\"]1['\"]/);
 
 console.log(JSON.stringify({

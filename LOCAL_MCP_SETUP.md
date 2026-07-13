@@ -62,17 +62,18 @@ npx -y --package @mediasfu/mcp-sdk-tools@1 mediasfu-mcp-http
 
 The defaults are:
 
-- MCP endpoint: `http://127.0.0.1:3333/mcp`
+- public read-only MCP endpoint: `http://127.0.0.1:3333/mcp`
+- disposable-key action endpoint: `http://127.0.0.1:3333/mcp/actions`
 - health endpoint: `http://127.0.0.1:3333/healthz`
 
-The server refuses an unauthenticated non-loopback binding. For any shared
-deployment, supply your own hardened reverse proxy, process supervision,
-authentication, and network controls. Do not expose the development listener
-directly to the internet.
+The server refuses an unauthenticated non-loopback binding. Use the hardened
+standalone baseline in [`server/README.md`](server/README.md) for any shared
+deployment. Do not expose the development listener directly to the internet.
 
-The managed MediaSFU endpoint is `https://mcp.mediasfu.com/mcp`; it requires a
-MediaSFU-issued bearer token. Never copy the production service token into a
-repository, frontend application, mobile binary, log, or support message.
+The managed public endpoint is `https://mcp.mediasfu.com/mcp` and requires no
+credentials. The action endpoint is `https://mcp.mediasfu.com/mcp/actions` and
+requires `Authorization: Bearer <username>:<disposableKey>`. Keep that credential
+in client secret storage and grant the disposable key only the needed operations.
 
 ## Safe execution defaults
 

@@ -1,0 +1,41 @@
+[Unit]
+Description=MediaSFU read-only MCP HTTP service
+Documentation=https://mcp.mediasfu.com/
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=mediasfu-mcp
+Group=mediasfu-mcp
+WorkingDirectory=/MCPServer/current
+Environment=NODE_ENV=production
+EnvironmentFile=/etc/mediasfu-mcp.env
+ExecStart=/usr/bin/node scripts/mcp-http-server-v2.mjs
+Restart=on-failure
+RestartSec=5s
+TimeoutStartSec=30s
+TimeoutStopSec=30s
+KillSignal=SIGTERM
+UMask=0027
+LimitNOFILE=4096
+TasksMax=256
+MemoryMax=768M
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectHostname=true
+ProtectClock=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+CapabilityBoundingSet=
+AmbientCapabilities=
+
+[Install]
+WantedBy=multi-user.target

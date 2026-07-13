@@ -87,7 +87,7 @@ Evidence status is intentionally conservative:
 - `documented` means the capability is evidenced in the bundled SDK reference.
 - `not-evidenced` means the bundled reference does not prove it; it does not claim the SDK cannot support it.
 
-`npm run registry:check` verifies packaged manifest, reference, and evidence hashes without depending on neighboring folders. In a complete MediaSFU SDK workspace, maintainers additionally run `npm run validate:workspace` and `npm run registry:check:workspace` to detect live package-version drift and unregistered SDKs. Reviewed registry changes are refreshed with `npm run registry:write`.
+`npm run registry:check` fails when a manifest, bundled reference, live package version, canonical package path, or evidence profile drifts. It also fails when a discoverable MediaSFU SDK workspace is not registered. Maintainers refresh reviewed changes with `npm run registry:write`.
 
 ## Safe scaffolding
 
@@ -135,22 +135,22 @@ node ./scripts/mcp-engine.mjs run shared frontend.architecture.plan --input '{"m
 
 Stdio entry point: `scripts/mcp-stdio-server.mjs`.
 
-Streamable HTTP entry point: `scripts/mcp-http-server.mjs`; the default endpoint is `http://127.0.0.1:3333/mcp`. Override it with `MCP_HOST`, `MCP_PORT`, and `MCP_ENDPOINT`.
+Streamable HTTP entry point: `scripts/mcp-http-server-v2.mjs`. It exposes public read-only tools at `/mcp` and scoped MediaSFU account actions at `/mcp/actions`.
 
-Both transports are read-only by default. Local side effects require `MCP_ALLOW_LOCAL_SIDE_EFFECTS=1`. HTTP side effects additionally require `MCP_HTTP_ALLOW_SIDE_EFFECTS=1`. Do not enable side effects for a shared endpoint.
+The stdio and public HTTP tool surfaces are read-only by default. Local filesystem/command side effects require `MCP_ALLOW_LOCAL_SIDE_EFFECTS=1` and must never be enabled on a shared endpoint.
 
-Public HTTP deployments should use TLS, `MCP_AUTH_TOKEN`, host allowlisting, and edge rate limiting. An intentionally unauthenticated public read-only endpoint additionally requires `MCP_ALLOW_UNAUTHENTICATED_PUBLIC=1`.
+The hosted `/mcp` endpoint is intentionally free of authentication and permanently read-only. The separate `/mcp/actions` endpoint requires `Authorization: Bearer <username>:<disposableKey>`, validates the key with MediaSFU, filters tools by key scope, and confirms side effects. See `server/README.md`.
 
 ## Backend boundary
 
-Use `shared::backend.integration.guide` for `/v1/rooms`, event settings, and disposable-key contracts. The MCP service is documentation and developer infrastructure: never send it an API key, disposable key, room secret, cookie, or bearer token.
+Use `shared::backend.integration.guide` for `/v1/rooms`, event settings, and disposable-key contracts. Never send credentials to the public/stdio tools. The action endpoint accepts only a disposable credential in the exact documented Authorization header and never exposes it to tools or logs.
 
 ## Release gate
 
 `npm run release:check` validates:
 
 1. all 10 manifests and critical tools;
-2. bundled SDK registry, reference, and evidence drift;
+2. SDK registry drift and unregistered SDK discovery;
 3. matching stdio and HTTP public tool surfaces;
 4. all public and internal adapter coverage;
 5. input, side-effect, path, redaction, timeout, and HTTP security controls;
@@ -159,7 +159,7 @@ Use `shared::backend.integration.guide` for `/v1/rooms`, event settings, and dis
 
 Run `npm run pack:dry-run` and `npm audit` before publication. Publishing is intentionally a separate maintainer action.
 
-Additional public setup notes are in `LOCAL_MCP_SETUP.md`.
+Additional public setup and deployment notes are in `LOCAL_MCP_SETUP.md` and `server/README.md`.
 
 ## Project links
 

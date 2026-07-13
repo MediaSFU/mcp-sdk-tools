@@ -1,0 +1,19 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name mcp.mediasfu.com;
+
+    access_log /var/log/nginx/mcp.mediasfu.com.access.log;
+    error_log /var/log/nginx/mcp.mediasfu.com.error.log warn;
+
+    location ^~ /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+        default_type text/plain;
+        try_files $uri =404;
+    }
+
+    # Never expose MCP over cleartext. This becomes an HTTPS redirect after TLS issuance.
+    location / {
+        return 404;
+    }
+}
