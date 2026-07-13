@@ -1,0 +1,84 @@
+{
+  "name": "@mediasfu/mcp-sdk-tools",
+  "private": false,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Official MediaSFU MCP server for SDK selection, frontend and backend integration guidance, scaffolding, references, and diagnostics.",
+  "author": "MediaSFU",
+  "license": "MIT",
+  "homepage": "https://mediasfu.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MediaSFU/mcp-sdk-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MediaSFU/mcp-sdk-tools/issues",
+    "email": "info@mediasfu.com"
+  },
+  "bin": {
+    "mcp-sdk-tools": "scripts/mcp-stdio-server.mjs",
+    "mediasfu-mcp": "scripts/mcp-stdio-server.mjs",
+    "mediasfu-mcp-http": "scripts/mcp-http-server.mjs"
+  },
+  "files": [
+    "LICENSE",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "sdk-registry.json",
+    "README.md",
+    "LOCAL_MCP_SETUP.md",
+    "manifests/",
+    "references/",
+    "scripts/"
+  ],
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "keywords": [
+    "mediasfu",
+    "mcp",
+    "model-context-protocol",
+    "webrtc",
+    "mediasoup",
+    "video-conferencing",
+    "sdk",
+    "developer-tools"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "test": "npm run release:check",
+    "prepublishOnly": "npm run release:check",
+    "registry:write": "node ./scripts/sdk-registry.mjs --write",
+    "registry:check": "node ./scripts/sdk-registry.mjs --check --standalone",
+    "registry:check:workspace": "node ./scripts/sdk-registry.mjs --check",
+    "validate": "node ./scripts/validate-manifests.mjs --standalone",
+    "validate:standalone": "node ./scripts/validate-manifests.mjs --standalone",
+    "validate:workspace": "node ./scripts/validate-manifests.mjs",
+    "release:check": "npm run validate && npm run registry:check && npm run mcp:server:selftest && npm run mcp:http:selftest && npm run mcp:smoke && npm run mcp:coverage && npm run mcp:security && npm run mcp:production && npm run mcp:scaffolds",
+    "pack:dry-run": "npm pack --dry-run",
+    "mcp:list": "node ./scripts/mcp-engine.mjs list reactjs",
+    "mcp:run:plan": "node ./scripts/mcp-engine.mjs run reactjs integration.plan --input \"{\\\"appType\\\":\\\"conference\\\",\\\"backendMode\\\":\\\"cloud\\\"}\"",
+    "mcp:run:refs": "node ./scripts/mcp-engine.mjs run reactjs api.reference.search --input \"{\\\"query\\\":\\\"create room\\\"}\"",
+    "mcp:run:flow": "node ./scripts/mcp-engine.mjs run reactjs room.flow.explain --input \"{\\\"mode\\\":\\\"both\\\"}\"",
+    "mcp:run:ui": "node ./scripts/mcp-engine.mjs run reactjs ui.mode.recommend --input \"{\\\"customizationLevel\\\":\\\"medium\\\"}\"",
+    "mcp:run:ui-overrides": "node ./scripts/mcp-engine.mjs run reactjs ui.overrides.guide --input \"{\\\"mode\\\":\\\"hybrid\\\",\\\"focus\\\":\\\"layout\\\"}\"",
+    "mcp:run:security": "node ./scripts/mcp-engine.mjs run reactjs security.proxy.rooms --input \"{\\\"backendMode\\\":\\\"cloud\\\"}\"",
+    "mcp:run:scaffold:apply": "node ./scripts/mcp-engine.mjs run reactjs app.scaffold --input \"{\\\"apply\\\":true}\"",
+    "mcp:smoke": "node ./scripts/mcp-smoke-test.mjs",
+    "mcp:coverage": "node ./scripts/mcp-coverage-test.mjs",
+    "mcp:server:selftest": "node ./scripts/mcp-stdio-server.mjs --self-test",
+    "mcp:production": "node ./scripts/mcp-production-test.mjs",
+    "mcp:scaffolds": "node ./scripts/mcp-scaffold-test.mjs",
+    "mcp:http:selftest": "node ./scripts/mcp-http-server.mjs --self-test",
+    "mcp:security": "node ./scripts/mcp-security-test.mjs",
+    "mcp:server": "node ./scripts/mcp-stdio-server.mjs",
+    "mcp:http": "node ./scripts/mcp-http-server.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "express-rate-limit": "^8.2.1"
+  }
+}

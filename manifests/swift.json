@@ -1,0 +1,189 @@
+{
+  "sdkId": "swift",
+  "title": "MediaSFU Apple / Swift",
+  "aliases": [
+    "apple",
+    "ios",
+    "ipados",
+    "macos",
+    "swift",
+    "swiftui",
+    "uikit"
+  ],
+  "packagePath": "mediasfu-sdk-kotlin/ios-native-bridge",
+  "apiDocsTool": "swift-package",
+  "capabilities": [
+    "conference",
+    "webinar",
+    "broadcast",
+    "chat",
+    "recording",
+    "whiteboard",
+    "translation",
+    "screen-share"
+  ],
+  "criticalTools": [
+    "sdk.recommend",
+    "app.scaffold",
+    "integration.plan",
+    "env.preflight",
+    "room.bootstrap",
+    "feature.map",
+    "runtime.diagnose",
+    "fix.suggest"
+  ],
+  "supportTools": [
+    "api.build_docs",
+    "docs.sync",
+    "parity.check",
+    "api.reference.search",
+    "room.flow.explain",
+    "ui.mode.recommend",
+    "ui.overrides.guide",
+    "security.proxy.rooms"
+  ],
+  "toolAdapters": [
+    {
+      "id": "sdk.recommend",
+      "kind": "advisor",
+      "profile": "native iOS, iPadOS, and macOS apps using Swift, SwiftUI, or UIKit"
+    },
+    {
+      "id": "app.scaffold",
+      "kind": "scaffold",
+      "templates": [
+        "swift-package-dependency",
+        "hosted-room-controller",
+        "native-mediasoup-bridge"
+      ]
+    },
+    {
+      "id": "integration.plan",
+      "kind": "planner",
+      "checkpoints": [
+        "swift-package-added",
+        "camera-microphone-permissions-added",
+        "host-view-controller-presented",
+        "native-mediasoup-bridge-installed",
+        "first-room-created-or-joined"
+      ]
+    },
+    {
+      "id": "env.preflight",
+      "kind": "command",
+      "command": "node -e \"const fs=require('fs');['website/docs/sdks/swift.md','mediasfu-sdk-kotlin/ios-native-bridge/Package.swift','mediasfu-sdk-kotlin/ios-native-bridge/Sources/MediaSFUIosBridge/KmpInstallShim.swift'].forEach((f)=>{if(!fs.existsSync(f)) throw new Error('missing '+f); console.log('found '+f);});\""
+    },
+    {
+      "id": "room.bootstrap",
+      "kind": "guide",
+      "source": "website/docs/sdks/swift.md"
+    },
+    {
+      "id": "feature.map",
+      "kind": "mapper",
+      "source": "capabilities"
+    },
+    {
+      "id": "runtime.diagnose",
+      "kind": "diagnostic",
+      "patterns": [
+        "swift",
+        "ios",
+        "xcode",
+        "swift package",
+        "camera",
+        "microphone",
+        "permission",
+        "mediasoup",
+        "webrtc",
+        "transport"
+      ]
+    },
+    {
+      "id": "fix.suggest",
+      "kind": "remediation",
+      "source": "docs/operations"
+    },
+    {
+      "id": "api.build_docs",
+      "kind": "command",
+      "command": "cd mediasfu-sdk-kotlin/ios-native-bridge && swift package describe"
+    },
+    {
+      "id": "docs.sync",
+      "kind": "command",
+      "command": "cd website && npm run sync:sdk-docs && npm run sync:api-docs"
+    },
+    {
+      "id": "parity.check",
+      "kind": "command",
+      "command": "cd mediasfu-sdk-kotlin/ios-native-bridge && swift test"
+    },
+    {
+      "id": "api.reference.search",
+      "kind": "reference-search",
+      "sources": [
+        "website/docs/sdks/swift.md",
+        "README.md",
+        "Package.swift",
+        "Sources/MediaSFUIosBridge/KmpInstallShim.swift",
+        "Sources/MediaSFUIosBridge/DeviceBackedBridge.swift"
+      ],
+      "maxResults": 6
+    },
+    {
+      "id": "room.flow.explain",
+      "kind": "flow-explainer",
+      "flow": {
+        "create": [
+          "Add the MediaSFU Apple SDK Swift package to the Xcode project",
+          "Add camera and microphone usage descriptions to the app target",
+          "Create MediaSFUIosHostBridge and launch config",
+          "Set cloud or self-hosted backend fields without embedding long-lived secrets in client code",
+          "Present the hosted room controller or set autoProceed for app-owned prejoin",
+          "Install native mediasoup/WebRTC bridge before enabling real device media"
+        ],
+        "join": [
+          "Collect room name or meeting ID, user name, passcode, and privilege level",
+          "Build launch config with action join and target room fields",
+          "Present the host controller from UIKit or SwiftUI hosting flow",
+          "Wait for room surface readiness before triggering media controls",
+          "Validate camera, microphone, and screen-share behavior on target Apple devices",
+          "Archive only after Swift package resolution and native media bridge checks pass"
+        ]
+      }
+    },
+    {
+      "id": "ui.mode.recommend",
+      "kind": "ui-advisor",
+      "modes": [
+        "hosted-controller",
+        "auto-proceed-prejoin",
+        "native-bridge-owned-controls"
+      ]
+    },
+    {
+      "id": "ui.overrides.guide",
+      "kind": "ui-overrides",
+      "focusAreas": [
+        "swiftui-hosting",
+        "uikit-presentation",
+        "permissions",
+        "media-controls",
+        "native-bridge"
+      ]
+    },
+    {
+      "id": "security.proxy.rooms",
+      "kind": "security-guide",
+      "patterns": [
+        "proxy-create-room",
+        "proxy-join-room",
+        "short-lived-token",
+        "rate-limit",
+        "audit-log",
+        "no-secrets-in-app-bundle"
+      ]
+    }
+  ]
+}

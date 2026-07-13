@@ -1,0 +1,167 @@
+{
+  "sdkId": "vue",
+  "title": "MediaSFU Vue",
+  "packagePath": "MediaSFUVue",
+  "apiDocsTool": "typedoc",
+  "capabilities": [
+    "conference",
+    "webinar",
+    "broadcast",
+    "chat",
+    "recording",
+    "whiteboard",
+    "translation",
+    "screen-share"
+  ],
+  "criticalTools": [
+    "sdk.recommend",
+    "app.scaffold",
+    "integration.plan",
+    "env.preflight",
+    "room.bootstrap",
+    "feature.map",
+    "runtime.diagnose",
+    "fix.suggest"
+  ],
+  "supportTools": [
+    "api.build_docs",
+    "docs.sync",
+    "parity.check",
+    "api.reference.search",
+    "room.flow.explain",
+    "ui.mode.recommend",
+    "ui.overrides.guide",
+    "security.proxy.rooms"
+  ],
+  "toolAdapters": [
+    {
+      "id": "sdk.recommend",
+      "kind": "advisor",
+      "profile": "Vue 3 composition-friendly room wrappers"
+    },
+    {
+      "id": "app.scaffold",
+      "kind": "scaffold",
+      "templates": [
+        "plugin-registration",
+        "composable/useMediaSFU",
+        "room-view"
+      ]
+    },
+    {
+      "id": "integration.plan",
+      "kind": "planner",
+      "checkpoints": [
+        "deps-installed",
+        "plugin-wired",
+        "first-room-created"
+      ]
+    },
+    {
+      "id": "env.preflight",
+      "kind": "command",
+      "command": "node -v && npm -v"
+    },
+    {
+      "id": "room.bootstrap",
+      "kind": "command",
+      "command": "npm run dev"
+    },
+    {
+      "id": "feature.map",
+      "kind": "mapper",
+      "source": "capabilities"
+    },
+    {
+      "id": "runtime.diagnose",
+      "kind": "diagnostic",
+      "patterns": [
+        "vite",
+        "socket",
+        "401",
+        "transport",
+        "media"
+      ]
+    },
+    {
+      "id": "fix.suggest",
+      "kind": "remediation",
+      "source": "docs/operations"
+    },
+    {
+      "id": "api.build_docs",
+      "kind": "npm-script",
+      "script": "build-docs"
+    },
+    {
+      "id": "docs.sync",
+      "kind": "command",
+      "command": "cd website && npm run sync:sdk-docs && npm run sync:api-docs"
+    },
+    {
+      "id": "parity.check",
+      "kind": "command",
+      "command": "cd website && npm run check:parity-drift"
+    },
+    {
+      "id": "api.reference.search",
+      "kind": "reference-search",
+      "sources": [
+        "website/docs/sdks/vue.md",
+        "website/static/api/vue/index.html"
+      ],
+      "maxResults": 6
+    },
+    {
+      "id": "room.flow.explain",
+      "kind": "flow-explainer",
+      "flow": {
+        "create": [
+          "Collect credentials and backend mode",
+          "Validate environment and SDK prerequisites",
+          "Call create room helper and parse response",
+          "Initialize socket/session state",
+          "Mount room UI or headless orchestration"
+        ],
+        "join": [
+          "Collect room ID and participant identity",
+          "Validate credentials/token and transport reachability",
+          "Call join room helper and parse response",
+          "Attach media and participant subscriptions",
+          "Render room shell and active controls"
+        ]
+      }
+    },
+    {
+      "id": "ui.mode.recommend",
+      "kind": "ui-advisor",
+      "modes": [
+        "prebuilt",
+        "hybrid",
+        "headless"
+      ]
+    },
+    {
+      "id": "ui.overrides.guide",
+      "kind": "ui-overrides",
+      "focusAreas": [
+        "branding",
+        "layout",
+        "cards",
+        "controls",
+        "headless-shell"
+      ]
+    },
+    {
+      "id": "security.proxy.rooms",
+      "kind": "security-guide",
+      "patterns": [
+        "proxy-create-room",
+        "proxy-join-room",
+        "short-lived-token",
+        "rate-limit",
+        "audit-log"
+      ]
+    }
+  ]
+}

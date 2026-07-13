@@ -1,0 +1,183 @@
+{
+  "sdkId": "unity",
+  "title": "MediaSFU Unity",
+  "aliases": [
+    "unity",
+    "unity-sdk",
+    "csharp-unity"
+  ],
+  "packagePath": "mediasfu-unity-sdk",
+  "apiDocsTool": "unity-package-docs",
+  "capabilities": [
+    "conference",
+    "webinar",
+    "broadcast",
+    "chat",
+    "recording",
+    "whiteboard",
+    "translation",
+    "screen-share"
+  ],
+  "criticalTools": [
+    "sdk.recommend",
+    "app.scaffold",
+    "integration.plan",
+    "env.preflight",
+    "room.bootstrap",
+    "feature.map",
+    "runtime.diagnose",
+    "fix.suggest"
+  ],
+  "supportTools": [
+    "api.build_docs",
+    "docs.sync",
+    "parity.check",
+    "api.reference.search",
+    "room.flow.explain",
+    "ui.mode.recommend",
+    "ui.overrides.guide",
+    "security.proxy.rooms"
+  ],
+  "toolAdapters": [
+    {
+      "id": "sdk.recommend",
+      "kind": "advisor",
+      "profile": "Unity apps, games, simulations, and training tools with a Unity-owned scene and media surface"
+    },
+    {
+      "id": "app.scaffold",
+      "kind": "scaffold",
+      "templates": [
+        "unity-package-install",
+        "basic-room-flow",
+        "native-media-bridge"
+      ]
+    },
+    {
+      "id": "integration.plan",
+      "kind": "planner",
+      "checkpoints": [
+        "unity-2022.3-plus",
+        "media-client-package-installed",
+        "mediasfu-unity-package-installed",
+        "native-plugin-present-for-target",
+        "first-room-joined"
+      ]
+    },
+    {
+      "id": "env.preflight",
+      "kind": "command",
+      "command": "node -e \"const fs=require('fs');['mediasfu-unity-sdk/package.json','mediasfu-mediasoup-client-unity/package.json','mediasfu-unity-validation/ProjectSettings/ProjectVersion.txt'].forEach((f)=>{if(!fs.existsSync(f)) throw new Error('missing '+f); console.log('found '+f);});\""
+    },
+    {
+      "id": "room.bootstrap",
+      "kind": "guide",
+      "source": "website/docs/sdks/unity.md"
+    },
+    {
+      "id": "feature.map",
+      "kind": "mapper",
+      "source": "capabilities"
+    },
+    {
+      "id": "runtime.diagnose",
+      "kind": "diagnostic",
+      "patterns": [
+        "unity",
+        "webrtc",
+        "native plugin",
+        "dll",
+        "dylib",
+        "xcframework",
+        "permission",
+        "transport",
+        "socket"
+      ]
+    },
+    {
+      "id": "fix.suggest",
+      "kind": "remediation",
+      "source": "docs/operations"
+    },
+    {
+      "id": "api.build_docs",
+      "kind": "command",
+      "command": "node -e \"const fs=require('fs');['mediasfu-unity-sdk/Documentation~/API_CONTRACT.md','mediasfu-unity-sdk/Documentation~/NATIVE_PLUGIN_CONTRACT.md','mediasfu-mediasoup-client-unity/USAGE.md'].forEach((f)=>{if(!fs.existsSync(f)) throw new Error('missing '+f); console.log('found '+f);});\""
+    },
+    {
+      "id": "docs.sync",
+      "kind": "command",
+      "command": "cd website && npm run sync:sdk-docs && npm run sync:api-docs"
+    },
+    {
+      "id": "parity.check",
+      "kind": "command",
+      "command": "powershell -ExecutionPolicy Bypass -File scripts/run-unity-validation.ps1"
+    },
+    {
+      "id": "api.reference.search",
+      "kind": "reference-search",
+      "sources": [
+        "website/docs/sdks/unity.md",
+        "Documentation~/API_CONTRACT.md",
+        "Documentation~/NATIVE_PLUGIN_CONTRACT.md",
+        "../mediasfu-mediasoup-client-unity/USAGE.md"
+      ],
+      "maxResults": 6
+    },
+    {
+      "id": "room.flow.explain",
+      "kind": "flow-explainer",
+      "flow": {
+        "create": [
+          "Install com.mediasfu.mediasoup-client-unity before com.mediasfu.unity",
+          "Choose MediaSFU Cloud or self-hosted MediaSFU Open backend",
+          "Create MediaSfuClient with credentials and backend options",
+          "Attach the native WebRTC device before enabling real media",
+          "Join or create the room from a Unity scene controller",
+          "Bind remote media, controls, and status into Unity-owned scene objects"
+        ],
+        "join": [
+          "Collect meeting ID, participant name, and privilege level",
+          "Validate target platform native plugin availability",
+          "Call JoinRoomAsync and inspect Success and Detail",
+          "Call ConnectMediaAsync after room join succeeds",
+          "Attach microphone, camera, screen share, and remote playback handlers",
+          "Validate on the exact Unity build target before shipping"
+        ]
+      }
+    },
+    {
+      "id": "ui.mode.recommend",
+      "kind": "ui-advisor",
+      "modes": [
+        "unity-scene-owned",
+        "hybrid-controls",
+        "headless-orchestration"
+      ]
+    },
+    {
+      "id": "ui.overrides.guide",
+      "kind": "ui-overrides",
+      "focusAreas": [
+        "scene-layout",
+        "world-space-canvas",
+        "participant-surfaces",
+        "controls",
+        "native-media-rendering"
+      ]
+    },
+    {
+      "id": "security.proxy.rooms",
+      "kind": "security-guide",
+      "patterns": [
+        "proxy-create-room",
+        "proxy-join-room",
+        "short-lived-token",
+        "rate-limit",
+        "audit-log",
+        "no-secrets-in-scenes"
+      ]
+    }
+  ]
+}

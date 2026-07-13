@@ -1,0 +1,16 @@
+node_modules/
+generated/
+.vscode/
+.env
+.env.*
+.npmrc
+.DS_Store
+Thumbs.db
+*.log
+*.tgz
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
